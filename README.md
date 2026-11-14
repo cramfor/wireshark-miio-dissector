@@ -85,34 +85,6 @@ Wireshark Lua 插件，用于解析**小米米家（miIO）局域网二进制协
 
 ---
 
-## 抓包示例
-
-仓库 `samples/` 目录可放脱敏后的 `miio-sample.pcapng`，演示：
-
-- Hello / Hello Ack 握手；
-- `get_prop` 查询（如 `["power"]`）；
-- `set` 控制指令与响应。
-
-> 提交抓包前请务必替换/删除真实 token 与 deviceId，避免泄露设备控制权。
-
----
-
-## 工作原理简述
-
-+----------------+----------------+----------------+----------------+
-| magic (2B) | length (2B) | unknown (4B) | deviceId (4B) |
-+----------------+----------------+----------------+----------------+
-| timestamp (4B) | checksum (16B, MD5) |
-+----------------+--------------------------------------------------+
-| encrypted payload (AES-128-CBC, length-32 bytes) |
-+-------------------------------------------------------------------+
-
-- `checksum = MD5(header[0:16] || token || encrypted_payload)`
-- `key = MD5(token)`，`iv = MD5(key || token)`
-- 负载为 JSON（部分老固件为纯文本）。
-
----
-
 ## 兼容性
 
 - Wireshark 3.x / 4.x
